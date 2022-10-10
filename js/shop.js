@@ -1,6 +1,5 @@
 // If you have time, you can move this variable "products" to a json or js file and load the data in this js. It will look more professional
-var products = [
-   {
+var products = [{
         id: 1,
         name: 'cooking oil',
         price: 10.5,
@@ -95,7 +94,6 @@ function calculateTotal() {
     for (let i = 0; i < cartList.length; i++) {
         total += cartList[i].price
     }
-    console.log(total);
 }
 
 // Exercise 4
@@ -110,14 +108,14 @@ function generateCart() {
             product.quantity = 1
             product.subtotal = product.price
             cart.push(product)
-        }
-        else if (productExist) {
+            
+        } else if (productExist) {
             product.quantity += 1
             product.subtotal += product.price
         }
     }
-    applyPromotionsCart()
     calculateTotal()
+    applyPromotionsCart()
 }
 
 // Exercise 5
@@ -125,18 +123,25 @@ function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
     const oilExist = cart.find((e) => e.name === products[0].name)
     const cakeExist = cart.find((e) => e.name === products[2].name)
-    const aplicateDisOil = oilExist.quantity >= products[0].offer.number
-    const aplicateDisCake = cakeExist.quantity >= products[2].offer.number
+    
+    let aplicateDisOil
+    if (oilExist) aplicateDisOil = oilExist.quantity >= products[0].offer.number
+    let aplicateDisCake
+    if (cakeExist) aplicateDisCake = cakeExist.quantity >= products[2].offer.number
+
     if (aplicateDisOil) {
         const percent = products[0].offer.percent / 100
         const valueDiscount = (oilExist.subtotal * percent).toFixed(2)
-        cart[0].subtotal - valueDiscount
+        products[0].subtotalWithDiscount = products[0].subtotal - valueDiscount
+        total -= valueDiscount
     }
     if (aplicateDisCake) {
         const percent = products[2].offer.percent / 100
         const valueDiscount = (cakeExist.subtotal * percent).toFixed(2)
-        cart[2].subtotal - valueDiscount
+        products[2].subtotalWithDiscount = products[2].subtotal - valueDiscount
+        total -= valueDiscount
     }
+    console.log(total);
 }
 
 // Exercise 6
@@ -160,7 +165,7 @@ function removeFromCart(id) {
     // 2. Add found product to the cartList array
 }
 
-function open_modal(){
-	console.log("Open Modal");
-	printCart();
+function open_modal() {
+    console.log("Open Modal");
+    printCart();
 }
