@@ -77,34 +77,66 @@ function buy(id) {
     const product = products.find((e) => e.id === id)
     // 2. Add found product to the cartList array
     cartList.push(product)
-    console.log(cartList);
-    calculateTotal()
+    generateCart()
+    console.log(cart);
 }
 
 // Exercise 2
 function cleanCart() {
     cartList = []
+    cart = []
+    total = 0
 }
 
 // Exercise 3
 function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
-    let totalSum = 0
+    total = 0
     for (let i = 0; i < cartList.length; i++) {
-        totalSum += cartList[i].price
+        total += cartList[i].price
     }
-    console.log(totalSum);
+    console.log(total);
 }
 
 // Exercise 4
 function generateCart() {
-    // Using the "cartlist" array that contains all the items in the shopping cart, 
+    cart = []
+    // Using the "cartlist" array that contains all the items in the shopping cart,
     // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
+    for (let i = 0; i < cartList.length; i++) {
+        const product = cartList[i]
+        const productExist = cart.find((e) => e.id === product.id)
+        if (!productExist) {
+            product.quantity = 1
+            product.subtotal = product.price
+            cart.push(product)
+        }
+        else if (productExist) {
+            product.quantity += 1
+            product.subtotal += product.price
+        }
+    }
+    applyPromotionsCart()
+    calculateTotal()
 }
 
 // Exercise 5
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
+    const oilExist = cart.find((e) => e.name === products[0].name)
+    const cakeExist = cart.find((e) => e.name === products[2].name)
+    const aplicateDisOil = oilExist.quantity >= products[0].offer.number
+    const aplicateDisCake = cakeExist.quantity >= products[2].offer.number
+    if (aplicateDisOil) {
+        const percent = products[0].offer.percent / 100
+        const valueDiscount = (oilExist.subtotal * percent).toFixed(2)
+        cart[0].subtotal - valueDiscount
+    }
+    if (aplicateDisCake) {
+        const percent = products[2].offer.percent / 100
+        const valueDiscount = (cakeExist.subtotal * percent).toFixed(2)
+        cart[2].subtotal - valueDiscount
+    }
 }
 
 // Exercise 6
