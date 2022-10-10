@@ -74,17 +74,26 @@ var total = 0;
 // Exercise 1
 function buy(id) {
     // 1. Loop for to the array products to get the item to add to cart
+    const product = products.find((e) => e.id === id)
     // 2. Add found product to the cartList array
+    cartList.push(product)
+    console.log(cartList);
+    calculateTotal()
 }
 
 // Exercise 2
 function cleanCart() {
-
+    cartList = []
 }
 
 // Exercise 3
 function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
+    let totalSum = 0
+    for (let i = 0; i < cartList.length; i++) {
+        totalSum += cartList[i].price
+    }
+    console.log(totalSum);
 }
 
 // Exercise 4
