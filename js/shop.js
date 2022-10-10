@@ -63,8 +63,9 @@ var products = [{
     }
 ]
 // Array with products (objects) added directly with push(). Products in this array are repeated.
-var cartList = [];
+// const productsDataCustomer = [...products]
 
+var cartList = [];
 // Improved version of cartList. Cart is an array of products (objects), but each one has a quantity field to define its quantity, so these products are not repeated.
 var cart = [];
 
@@ -77,7 +78,7 @@ function buy(id) {
     // 2. Add found product to the cartList array
     cartList.push(product)
     generateCart()
-    console.log(cart);
+
 }
 
 // Exercise 2
@@ -85,6 +86,7 @@ function cleanCart() {
     cartList = []
     cart = []
     total = 0
+    printCart()
 }
 
 // Exercise 3
@@ -108,7 +110,7 @@ function generateCart() {
             product.quantity = 1
             product.subtotal = product.price
             cart.push(product)
-            
+
         } else if (productExist) {
             product.quantity += 1
             product.subtotal += product.price
@@ -116,6 +118,7 @@ function generateCart() {
     }
     calculateTotal()
     applyPromotionsCart()
+    printCart();
 }
 
 // Exercise 5
@@ -123,7 +126,7 @@ function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
     const oilExist = cart.find((e) => e.name === products[0].name)
     const cakeExist = cart.find((e) => e.name === products[2].name)
-    
+
     let aplicateDisOil
     if (oilExist) aplicateDisOil = oilExist.quantity >= products[0].offer.number
     let aplicateDisCake
@@ -141,12 +144,28 @@ function applyPromotionsCart() {
         products[2].subtotalWithDiscount = products[2].subtotal - valueDiscount
         total -= valueDiscount
     }
-    console.log(total);
+
 }
 
 // Exercise 6
 function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
+    let htmlCart = ''
+    let counterProduct = 0
+    cart.forEach(e => {
+        htmlCart +=
+            `<tr>
+                <th scope="row">${e.name}</th>
+                <td>$${e.price}</td>
+                <td>${e.quantity}</td>
+                <td>$${e.subtotal}</td>
+                <td>${e.subtotalWithDiscount?'$' + e.subtotalWithDiscount:''}</td>
+            </tr>`
+        counterProduct += e.quantity
+    });
+    document.getElementById('cart_list').innerHTML = htmlCart
+    document.getElementById('count_product').innerHTML = counterProduct
+    document.getElementById('total_price').innerHTML = total.toFixed(2)
 }
 
 
@@ -165,7 +184,7 @@ function removeFromCart(id) {
     // 2. Add found product to the cartList array
 }
 
-function open_modal() {
-    console.log("Open Modal");
-    printCart();
-}
+// function open_modal() {
+
+
+// }
