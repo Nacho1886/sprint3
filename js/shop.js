@@ -77,8 +77,8 @@ function buy(id) {
     for (let i = 0; i < products.length; i++) {
         if (products[i].id === id) cartList.push(products[i])
     }
-/*     const product = products.find((e) => e.id === id)
-    cartList.push(product) */
+    /*     const product = products.find((e) => e.id === id)
+        cartList.push(product) */
     // 2. Add found product to the cartList array
     generateCart()
 
@@ -86,7 +86,7 @@ function buy(id) {
 
 // Exercise 2
 function cleanCart() {
-    cartList = []
+    /* cartList = [] */
     cart = []
     total = 0
     printCart()
@@ -96,8 +96,11 @@ function cleanCart() {
 function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
     total = 0
-    for (let i = 0; i < cartList.length; i++) {
-        total += cartList[i].price
+    /*     for (let i = 0; i < cartList.length; i++) {
+            total += cartList[i].price
+        } */
+    for (let i = 0; i < cart.length; i++) {
+        total += cart[i].subtotal
     }
 }
 
@@ -127,14 +130,24 @@ function generateCart() {
 // Exercise 5
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
-    const productWithDiscount = cart.find((e) => e.offer.percent)
-    const activateDiscount = productWithDiscount.quantity >= productWithDiscount.offer.number
+    for (let i = 0; i < cart.length; i++) {
+        const existDiscount = cart[i].offer
+        if (existDiscount) {
+            /* const productWithDiscount = cart.find((e) => e.offer.percent) */
+            const activateDiscount = cart[i].quantity >= cart[i].offer.number
+            const percent = cart[i].offer.percent / 100
 
-    if (activateDiscount) {
-        const percent = productWithDiscount.offer.percent / 100
-        const valueDiscount = (productWithDiscount.subtotal * percent).toFixed(2)
-        productWithDiscount.subtotalWithDiscount = productWithDiscount.subtotal - valueDiscount
-        total -= valueDiscount
+            if (activateDiscount) {
+                const valueDiscount = (cart[i].subtotal * percent).toFixed(2)
+                cart[i].subtotalWithDiscount = cart[i].subtotal - valueDiscount
+                total -= valueDiscount
+            }
+            /*             else if (!activateDiscount) {
+                            const valueCount = (cart[i].subtotal / percent)
+                            cart[i].subtotalWithDiscount = cart[i].subtotal + valueCount
+                            delete(cart[i].subtotalWithDiscount)
+                        } */
+        }
     }
 }
 
@@ -145,12 +158,15 @@ function printCart() {
     let counterProduct = 0
     cart.forEach(e => {
         htmlCart +=
-            `<tr>
+            `<tr id="trashDelete${e.id}">
                 <th scope="row">${e.name}</th>
                 <td>$${e.price}</td>
                 <td>${e.quantity}</td>
                 <td>$${e.subtotal}</td>
                 <td>${e.subtotalWithDiscount?'$' + e.subtotalWithDiscount:''}</td>
+                <td>
+                    <img class="btn"  onclick="removeFromCart(${e.id})" src="images/trash.svg" alt="trashIcon">
+                </td>
             </tr>`
         counterProduct += e.quantity
     });
@@ -167,23 +183,19 @@ function addToCart(id) {
     // Refactor previous code in order to simplify it 
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cart array or update its quantity in case it has been added previously.
-    cart = []
     for (let i = 0; i < products.length; i++) {
-        
-    }
+        if (products[i].id === id) {
+            let product = products[i]
+            const productExist = cart.find((e) => e.id === product.id)
+            if (!productExist) {
+                product.quantity = 1
+                product.subtotal = product.price
+                cart.push(product)
 
-    for (let i = 0; i < cartList.length; i++) {
-        let product
-        if (products[i].id === id) product =products[i]
-        const productExist = cart.find((e) => e.id === product.id)
-        if (!productExist) {
-            product.quantity = 1
-            product.subtotal = product.price
-            cart.push(product)
-
-        } else if (productExist) {
-            product.quantity += 1
-            product.subtotal += product.price
+            } else if (productExist) {
+                product.quantity += 1
+                product.subtotal += product.price
+            }
         }
     }
     calculateTotal()
@@ -193,11 +205,31 @@ function addToCart(id) {
 
 // Exercise 8
 function removeFromCart(id) {
-    // 1. Loop for to the array products to get the item to add to cart
-    // 2. Add found product to the cartList array
+    const productDeleted = cart.find((e) => e.id === id)
+    productDeleted.quantity--
+    total -= productDeleted.price
+    productDeleted.subtotal -= productDeleted.price
+    if (productDeleted.quantity === 0) {
+        document.getElementById(`trashDelete${productDeleted.id}`).innerHTML = ''
+    }
+    const existDiscount = productDeleted.subtotalWithDiscount
+    if (existDiscount) {
+        const desactivateDiscount = productDeleted.quantity < productDeleted.offer.number
+        const percent = productDeleted.offer.percent / 100
+
+        if (desactivateDiscount) {
+            const valueDiscount = (productDeleted.subtotal * percent).toFixed(2)
+            productDeleted.subtotal = productDeleted.subtotal + valueDiscount
+            total += valueDiscount
+            delete(productDeleted.subtotalWithDiscount)
+        }
+    }
+// 1. Loop for to the array products to get the item to add to cart
+// 2. Add found product to the cartList array
+applyPromotionsCart()
+printCart()
 }
 
-// function open_modal() {
-
-
-// }
+function open_modal() {
+    printCart();
+}
