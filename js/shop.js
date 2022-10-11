@@ -74,9 +74,12 @@ var total = 0;
 // Exercise 1
 function buy(id) {
     // 1. Loop for to the array products to get the item to add to cart
-    const product = products.find((e) => e.id === id)
+    for (let i = 0; i < products.length; i++) {
+        if (products[i].id === id) cartList.push(products[i])
+    }
+/*     const product = products.find((e) => e.id === id)
+    cartList.push(product) */
     // 2. Add found product to the cartList array
-    cartList.push(product)
     generateCart()
 
 }
@@ -124,27 +127,15 @@ function generateCart() {
 // Exercise 5
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
-    const oilExist = cart.find((e) => e.name === products[0].name)
-    const cakeExist = cart.find((e) => e.name === products[2].name)
+    const productWithDiscount = cart.find((e) => e.offer.percent)
+    const activateDiscount = productWithDiscount.quantity >= productWithDiscount.offer.number
 
-    let aplicateDisOil
-    if (oilExist) aplicateDisOil = oilExist.quantity >= products[0].offer.number
-    let aplicateDisCake
-    if (cakeExist) aplicateDisCake = cakeExist.quantity >= products[2].offer.number
-
-    if (aplicateDisOil) {
-        const percent = products[0].offer.percent / 100
-        const valueDiscount = (oilExist.subtotal * percent).toFixed(2)
-        products[0].subtotalWithDiscount = products[0].subtotal - valueDiscount
+    if (activateDiscount) {
+        const percent = productWithDiscount.offer.percent / 100
+        const valueDiscount = (productWithDiscount.subtotal * percent).toFixed(2)
+        productWithDiscount.subtotalWithDiscount = productWithDiscount.subtotal - valueDiscount
         total -= valueDiscount
     }
-    if (aplicateDisCake) {
-        const percent = products[2].offer.percent / 100
-        const valueDiscount = (cakeExist.subtotal * percent).toFixed(2)
-        products[2].subtotalWithDiscount = products[2].subtotal - valueDiscount
-        total -= valueDiscount
-    }
-
 }
 
 // Exercise 6
