@@ -96,11 +96,10 @@ function cleanCart() {
 function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
     total = 0
-    /*     for (let i = 0; i < cartList.length; i++) {
-            total += cartList[i].price
-        } */
+
     for (let i = 0; i < cart.length; i++) {
-        total += cart[i].subtotal
+        const existAplicatedDiscount = cart[i].subtotalWithDiscount
+        existAplicatedDiscount ? total += cart[i].subtotalWithDiscount : total += cart[i].subtotal
     }
 }
 
@@ -133,14 +132,17 @@ function applyPromotionsCart() {
     for (let i = 0; i < cart.length; i++) {
         const existDiscount = cart[i].offer
         if (existDiscount) {
-            /* const productWithDiscount = cart.find((e) => e.offer.percent) */
             const activateDiscount = cart[i].quantity >= cart[i].offer.number
-            
+            const existAplicatedDiscount = cart[i].subtotalWithDiscount
+
             if (activateDiscount) {
                 const percent = cart[i].offer.percent / 100
                 const valueDiscount = (cart[i].subtotal * percent).toFixed(2)
                 cart[i].subtotalWithDiscount = cart[i].subtotal - valueDiscount
-                total -= valueDiscount
+            }
+            
+            if (existAplicatedDiscount && !activateDiscount) {
+                delete(cart[i].subtotalWithDiscount)            
             }
         }
     }
@@ -167,7 +169,7 @@ function printCart() {
     });
     const totalDecimal = total % 1 !== 0
     if (totalDecimal) total = total.toFixed(2)
-    
+
     document.getElementById('cart_list').innerHTML = htmlCart
     document.getElementById('count_product').innerHTML = counterProduct
     document.getElementById('total_price').innerHTML = total
@@ -196,8 +198,8 @@ function addToCart(id) {
             }
         }
     }
-    calculateTotal()
     applyPromotionsCart()
+    calculateTotal()
     printCart();
 }
 
@@ -210,21 +212,11 @@ function removeFromCart(id) {
         cart.splice(eliminateProductCart, 1)
     }
 
-    const existDiscount = productDeleted.subtotalWithDiscount
-    if (existDiscount) {
-        const desactivateDiscount = productDeleted.quantity < productDeleted.offer.number
-        const percent = productDeleted.offer.percent / 100
-
-        if (desactivateDiscount) {
-            const valueDiscount = (productDeleted.subtotal * percent)
-            total += valueDiscount
-            delete(productDeleted.subtotalWithDiscount)
-        }
-    }
-    total -= productDeleted.price
     productDeleted.subtotal -= productDeleted.price
 // 1. Loop for to the array products to get the item to add to cart
 // 2. Add found product to the cartList array
+applyPromotionsCart()
+calculateTotal()
 printCart()
 }
 
