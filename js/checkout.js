@@ -9,39 +9,52 @@ function validate() {
 	// Get the error elements
 	var errorName = document.getElementById("errorName");
 	var errorEmail = document.getElementById("errorEmail");  
-	
+	const burro = isNaN(fName.value)
 	// Validate fields entered by the user: name, phone, password, and email
-	if(fName.value == ""){
+	if(fName.value == "" || burro){
 		error++;
 	}
 
-	if(fEmail.value == ""){
-		error++;
-	}
+	// if(fEmail.value == ""){
+	// 	error++;
+	// }
 	 
 	if(error>0){
-		alert("Error");
+		const forms = document.querySelectorAll('.needs-validation')
+		// Loop over them and prevent submission
+		Array.from(forms).forEach(form => {
+			form.addEventListener('submit', event => {
+				console.log(forms);
+				if (!form.checkValidity()) {
+					event.preventDefault()
+					event.stopPropagation()
+				}
+	
+				form.classList.add('was-validated')
+			}, false)
+		})
 	}else{
 		alert("OK");
+		// window.addEventListener.
 	}
 
 }
 
-(() => {
-	'use strict'
+// (() => {
+// 	'use strict'
 
-	// Fetch all the forms we want to apply custom Bootstrap validation styles to
-	const forms = document.querySelectorAll('.needs-validation')
+// 	// Fetch all the forms we want to apply custom Bootstrap validation styles to
+// 	const forms = document.querySelectorAll('.needs-validation')
+// 	// Loop over them and prevent submission
+// 	Array.from(forms).forEach(form => {
+// 		form.addEventListener('submit', event => {
+// 			console.log(forms);
+// 			if (!form.checkValidity()) {
+// 				event.preventDefault()
+// 				event.stopPropagation()
+// 			}
 
-	// Loop over them and prevent submission
-	Array.from(forms).forEach(form => {
-		form.addEventListener('submit', event => {
-			if (!form.checkValidity()) {
-				event.preventDefault()
-				event.stopPropagation()
-			}
-
-			form.classList.add('was-validated')
-		}, false)
-	})
-})()
+// 			form.classList.add('was-validated')
+// 		}, false)
+// 	})
+// })()

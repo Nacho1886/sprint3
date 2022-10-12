@@ -185,7 +185,7 @@ function addToCart(id) {
     // 2. Add found product to the cart array or update its quantity in case it has been added previously.
     for (let i = 0; i < products.length; i++) {
         if (products[i].id === id) {
-            let product = products[i]
+            let product = {...products[i]}
             const productExist = cart.find((e) => e.id === product.id)
             if (!productExist) {
                 product.quantity = 1
@@ -193,8 +193,8 @@ function addToCart(id) {
                 cart.push(product)
 
             } else if (productExist) {
-                product.quantity += 1
-                product.subtotal += product.price
+                productExist.quantity += 1
+                productExist.subtotal += productExist.price
             }
         }
     }
