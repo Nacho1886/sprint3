@@ -43,6 +43,23 @@ h4, .h4 {
   display: none;
 }
 
+.specialColorInput {
+  color: white;
+  border: 0;
+  background-image: linear-gradient(to right, rgb(0, 255, 157), rgba(0, 255, 255, 0.6)) !important;
+}
+
+.specialBorder {
+  background-image: linear-gradient(to right, rgba(0, 255, 157, 0.03), rgba(0, 255, 255, 0.03)) !important;
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+
 /*!
  * Bootstrap  v5.2.2 (https://getbootstrap.com/)
  * Copyright 2011-2022 The Bootstrap Authors
