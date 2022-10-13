@@ -75,24 +75,24 @@
 				<h3 class="my-3 bord shadow text-center"><i class="fas fa-stopwatch p-2"></i>Delivery on time</h3>
 			</div>
 		</div>
-		<form class="form needs-validation specialBorder" novalidate>
+		<form class="form specialBorder" novalidate>
 			<div class="row bord p-5 shadow m-5">
 				<div class="col-sm-6">
 					<div class="mt-3">
 						<label for="fName" class="form-label">First Name:</label>
-						<input id="fName" required class="form-control ml-3" type="text" placeholder="First Name" minlength="3" />
+						<input id="fName" data-funcion="fName" required class="form-control ml-3" type="text" placeholder="First Name" minlength="3" />
 						<div id="errorName" class="invalid-feedback">This field is required and must have, at least, 3 characters
 						</div>
 					</div>
 					<div class="mt-3 ">
 						<label for="fEmail" class="form-label">Email:</label>
-						<input id="fEmail" required class="form-control ml-3" type="email" placeholder="Email" minlength="3" />
+						<input id="fEmail" data-funcion="fEmail" required class="form-control ml-3" type="email" placeholder="Email" minlength="3" />
 						<div id="errorEmail" class="invalid-feedback">This field is required and must contain an '@' and have, at
 							least, 3 characters</div>
 					</div>
 					<div class="mt-3 ">
 						<label for="fAddress" class="form-label">Address:</label>
-						<input id="fAddress" required class="form-control" type="text" placeholder="Address" minlength="3" />
+						<input id="fAddress" data-funcion="fAddress" required class="form-control" type="text" placeholder="Address" minlength="3" />
 						<div id="errorAddress" class="invalid-feedback">This field is required and must have, at least, 3 characters
 						</div>
 					</div>
@@ -100,19 +100,19 @@
 				<div class="col-sm-6">
 					<div class="mt-3">
 						<label for="fLastN" class="form-label">Last Name:</label>
-						<input id="fLastN" required class="form-control" type="text" placeholder="Last Name" minlength="3" />
+						<input id="fLastN" data-funcion="fLastN" required class="form-control" type="text" placeholder="Last Name" minlength="3" />
 						<div id="errorLastN" class="invalid-feedback">This field is required and must have, at least, 3 characters
 						</div>
 					</div>
 					<div class="mt-3">
 						<label for="fPassword" class="form-label">Password:</label>
-						<input id="fPassword" required class="form-control" title="(4-8 characters)" type="password" minlength="4"
+						<input id="fPassword" data-funcion="fPassword" required class="form-control" title="(4-8 characters)" type="password" minlength="4"
 							maxlength="8" placeholder="Password" />
 						<div id="errorPassword" class="invalid-feedback">Enter a correct password</div>
 					</div>
 					<div class="mt-3">
 						<label for="fPhone" class="form-label">Phone Number:</label>
-						<input id="fPhone" required class="form-control" type="text" placeholder="Phone No." minlength="9" maxlength="9" />
+						<input id="fPhone" data-funcion="fPhone" required class="form-control" type="text" placeholder="Phone No." minlength="9" maxlength="9" />
 						<div id="errorPhone" class="invalid-feedback">Invalid phone number!! Must be 9 digits with no letters</div>
 					</div>
 				</div>
