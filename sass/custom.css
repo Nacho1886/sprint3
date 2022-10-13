@@ -53,6 +53,10 @@ h4, .h4 {
   background-image: linear-gradient(to right, rgba(0, 255, 157, 0.03), rgba(0, 255, 255, 0.03)) !important;
 }
 
+.displayNone {
+  display: none;
+}
+
 footer {
   position: fixed;
   left: 0;
