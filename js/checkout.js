@@ -25,7 +25,7 @@ forms.forEach((form) => {
 				bottonAppear.removeAttribute('disabled')
 			}
 		}
-		else if (!inputIsValid) {
+		if (!inputIsValid) {
 			form.classList.remove("is-valid")
 			form.classList.add("is-invalid")
 			locateValidator.counter = 0

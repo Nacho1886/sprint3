@@ -116,7 +116,8 @@ function generateCart() {
             product.subtotal = product.price
             cart.push(product)
 
-        } else if (productExist) {
+        } 
+        if (productExist) {
             product.quantity += 1
             product.subtotal += product.price
         }
@@ -192,7 +193,8 @@ function addToCart(id) {
                 product.subtotal = product.price
                 cart.push(product)
 
-            } else if (productExist) {
+            } 
+            if (productExist) {
                 productExist.quantity += 1
                 productExist.subtotal += productExist.price
             }
